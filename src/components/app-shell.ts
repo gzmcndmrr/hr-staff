@@ -1,6 +1,7 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './common/app-header.ts';
+import './ui/table/table.tsx';
 
 @customElement('app-shell')
 export class AppShell extends LitElement {
@@ -22,14 +23,10 @@ export class AppShell extends LitElement {
         <app-header title="${this.title}"></app-header>
 
         <!-- Main Content -->
-        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-           main content
+        <main class="w-full mx-auto py-6 sm:px-6 lg:px-12">
+          <app-table></app-table>
         </main>
 
-        <!-- Footer -->
-        <footer class="bg-white border-t border-gray-200">
-          footer
-        </footer>
       </div>
     `;
   }
