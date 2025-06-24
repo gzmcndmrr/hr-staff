@@ -1,0 +1,35 @@
+{
+  "name": "hr-staff",
+  "version": "1.0.0",
+  "description": "HR Staff Management System with LitElement, TypeScript, Tailwind CSS, and Redux Toolkit",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": ["lit", "typescript", "tailwind", "redux-toolkit", "web-components"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "lit": "^3.1.0",
+    "@reduxjs/toolkit": "^2.0.1",
+    "redux": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10",
+    "vite-plugin-dts": "^3.7.0"
+  }
+} 
