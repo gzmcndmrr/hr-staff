@@ -12,12 +12,19 @@
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit"
   },
-  "keywords": ["lit", "typescript", "tailwind", "redux-toolkit", "web-components"],
+  "keywords": [
+    "lit",
+    "typescript",
+    "tailwind",
+    "redux-toolkit",
+    "web-components"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "lit": "^3.1.0",
     "@reduxjs/toolkit": "^2.0.1",
+    "lit": "^3.1.0",
+    "lucide": "^0.523.0",
     "redux": "^5.0.1"
   },
   "devDependencies": {
@@ -32,4 +39,4 @@
     "vite": "^5.0.10",
     "vite-plugin-dts": "^3.7.0"
   }
-} 
+}
