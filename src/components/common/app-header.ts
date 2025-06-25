@@ -1,10 +1,11 @@
-import { html, css, LitElement } from 'lit';
+import { html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { BaseComponent } from './base-component.js';
 import logoUrl from '../../assets/logo.png';
 import '../ui/button/app-button.ts';
 
 @customElement('app-header')
-export class AppHeader extends LitElement {
+export class AppHeader extends BaseComponent {
   @property({ type: String }) override title = 'ING';
 
   static override styles = css`
@@ -12,10 +13,6 @@ export class AppHeader extends LitElement {
       display: block;
     }
   `;
-
-  override createRenderRoot() {
-    return this;
-  }
 
   override render() {
     return html`

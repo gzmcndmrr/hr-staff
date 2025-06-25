@@ -1,10 +1,11 @@
-import { html, css, LitElement } from 'lit';
+import { html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { BaseComponent } from './common/base-component.js';
 import './common/app-header.ts';
 import './ui/table/table.tsx';
 
 @customElement('app-shell')
-export class AppShell extends LitElement {
+export class AppShell extends BaseComponent {
   @property({ type: String }) override title = 'ING';
 
   static override styles = css`
@@ -12,9 +13,6 @@ export class AppShell extends LitElement {
       display: block;
     }
   `;
-  override createRenderRoot() {
-    return this;
-  }
 
   override render() {
     return html`

@@ -57,6 +57,127 @@ export const sampleData: TableStaffData[] = [
         department: 'Pazarlama', 
         position: 'Senior'
     },
+    { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    }, { 
+        id: 5, 
+        firstName: 'Can', 
+        lastName: 'Özkan', 
+        dateOfEmployment: '2023-06-18',
+        dateOfBirth: '1991-02-14',
+        phone: '+90 555 567 8901',
+        email: 'can.ozkan@company.com',
+        department: 'Pazarlama', 
+        position: 'Senior'
+    },
   ];
 
 export const tableStaffColumns: TableStaffColumn[] = [
@@ -72,3 +193,7 @@ export const tableStaffColumns: TableStaffColumn[] = [
 ];
 
 export const headerColumnClass = "px-6 py-3 text-left text-xs font-medium text-orange-500 border-b border-gray-200";
+
+export const DEFAULT_CURRENT_PAGE = 1;
+export const DEFAULT_ITEMS_PER_PAGE = 5;
+export const MAX_VISIBLE_PAGES = 5;
