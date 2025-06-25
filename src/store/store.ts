@@ -1,8 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
+
+const placeholderSlice = createSlice({
+  name: 'placeholder',
+  initialState: {},
+  reducers: {}
+});
 
 export const store = configureStore({
   reducer: {
-    // staff: staffReducer,
+    placeholder: placeholderSlice.reducer,
   },
 });
 

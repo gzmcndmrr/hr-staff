@@ -1,12 +1,13 @@
 import { html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from './base-component.js';
-import logoUrl from '../../assets/logo.png';
-import '../ui/button/app-button.ts';
+import { BaseComponent } from '@/components/common/base-component.js';
+import logoUrl from '@/assets/logo.png';
+import '@/components/ui/button/app-button.ts';
 
 @customElement('app-header')
 export class AppHeader extends BaseComponent {
   @property({ type: String }) override title = 'ING';
+  @property({ type: String }) currentPath = '/';
 
   static override styles = css`
     :host {
@@ -22,13 +23,10 @@ export class AppHeader extends BaseComponent {
             <div class="flex items-center gap-4">
               <img src="${logoUrl}" alt="ING" class="w-8 h-8 rounded">
               <h1 class="text-xl font-semibold text-gray-900">${this.title}</h1>
-            </div>
-            <nav class="flex space-x-4">
-              <app-button 
-                title="Employees" 
-                icon="users" 
-                variant="ghost">
-              </app-button>
+            </div>     
+            
+            <!-- Action Buttons -->
+            <div class="flex space-x-4">
               <app-button 
                 title="Add New" 
                 icon="user-plus" 
@@ -39,7 +37,7 @@ export class AppHeader extends BaseComponent {
                 icon="globe" 
                 variant="ghost">
               </app-button>
-            </nav>
+            </div>
           </div>
         </div>
       </header>
