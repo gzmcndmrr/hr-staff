@@ -1,14 +1,3 @@
-interface ButtonProps {
-  title: string;
-  icon?: string;
-  onClick?: () => void;
-  type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
-  className?: string;
-  variant?: 'primary' | 'secondary' | 'ghost';
-}
-
-// Lucide icons için tip tanımlaması
 declare global {
   interface Window {
     lucide?: {
@@ -89,7 +78,6 @@ export class AppButton extends HTMLElement {
       </button>
     `;
 
-    // Initialize Lucide icons
     if (icon && window.lucide) {
       window.lucide.createIcons();
     }

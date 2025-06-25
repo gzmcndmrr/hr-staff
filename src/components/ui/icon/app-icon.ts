@@ -1,6 +1,6 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from '../../common/base-component.js';
+import { BaseComponent } from '@/components/common/base-component.js';
 import { createElement } from 'lucide';
 
 export interface IconConfig {
@@ -9,7 +9,11 @@ export interface IconConfig {
   stroke?: string;
   'stroke-width'?: number;
   fill?: string;
-  [key: string]: any; // lucide için ek özellikler
+  width?: number;
+  height?: number;
+  color?: string;
+  strokeLinecap?: 'round' | 'butt' | 'square';
+  strokeLinejoin?: 'round' | 'bevel' | 'miter';
 }
 
 @customElement('app-icon')

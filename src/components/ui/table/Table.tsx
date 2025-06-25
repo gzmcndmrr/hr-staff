@@ -1,11 +1,11 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from '../../common/base-component.js';
-import { tableStaffColumns, headerColumnClass, sampleData, DEFAULT_CURRENT_PAGE, DEFAULT_ITEMS_PER_PAGE } from './table.utils.js';
-import { TableStaffData } from './table.type.js';
+import { BaseComponent } from '@/components/common/base-component.js';
+import { tableStaffColumns, headerColumnClass, sampleData, DEFAULT_CURRENT_PAGE, DEFAULT_ITEMS_PER_PAGE } from '@/components/ui/table/table.utils.js';
+import { TableStaffData } from '@/components/ui/table/table.type.js';
 import { Edit, Trash2, Menu, Grid3X3 } from 'lucide';
-import './table-pagination.ts';
-import '../icon/app-icon.ts';
+import '@/components/ui/table/table-pagination.ts';
+import '@/components/ui/icon/app-icon.ts';
 
 @customElement('app-table')
 export class AppTable extends BaseComponent {

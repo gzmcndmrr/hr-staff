@@ -1,18 +1,12 @@
-import { html, css } from 'lit';
+import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from './common/base-component.js';
-import './common/app-header.ts';
-import './ui/table/table.tsx';
+import { BaseComponent } from '@/components/common/base-component.js';
+import '@/components/common/app-header.ts';
+import '@/components/ui/table/table.tsx';
 
-@customElement('app-shell')
-export class AppShell extends BaseComponent {
+@customElement('app-main')
+export class AppMain extends BaseComponent {
   @property({ type: String }) override title = 'ING';
-
-  static override styles = css`
-    :host {
-      display: block;
-    }
-  `;
 
   override render() {
     return html`
@@ -32,6 +26,6 @@ export class AppShell extends BaseComponent {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'app-shell': AppShell;
+    'app-main': AppMain;
   }
 }

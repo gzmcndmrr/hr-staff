@@ -1,9 +1,9 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { BaseComponent } from '../../common/base-component.js';
+import { BaseComponent } from '@/components/common/base-component.js';
 import { ChevronLeft, ChevronRight } from 'lucide';
-import { AppIcon } from '../icon/app-icon.js';
-import { DEFAULT_CURRENT_PAGE, DEFAULT_ITEMS_PER_PAGE, MAX_VISIBLE_PAGES } from './table.utils.js';
+import { AppIcon } from '@/components/ui/icon/app-icon.js';
+import { DEFAULT_CURRENT_PAGE, DEFAULT_ITEMS_PER_PAGE, MAX_VISIBLE_PAGES } from '@/components/ui/table/table.utils.js';
 
 export interface PaginationState {
   currentPage: number;
