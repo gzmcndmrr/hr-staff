@@ -1,9 +1,8 @@
 import { Router } from '@vaadin/router';
 
-// Import views
-import '../views/home-view.ts';
-import '../views/employee-view.ts';
-import '../views/settings-view.ts';
+import '@/views/home-view.ts';
+import '@/views/employee/employee-view';
+import '@/views/settings-view.ts';
 
 export function initRouter(): Router | undefined {
   const outlet = document.getElementById('router-outlet');

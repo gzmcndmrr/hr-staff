@@ -17,19 +17,23 @@ export class AppHeader extends BaseComponent {
 
   override render() {
     return html`
-      <header class="bg-white shadow-sm border-b border-gray-200 mt-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center h-16">
-            <div class="flex items-center gap-4">
-              <img src="${logoUrl}" alt="ING" class="w-8 h-8 rounded">
-              <h1 class="text-xl font-semibold text-gray-900">${this.title}</h1>
+      <header class="bg-white shadow-sm border-b border-gray-200">
+          <div class="flex justify-between items-center h-14 px-4">
+            <div class="flex items-center gap-2">
+              <img src="${logoUrl}" alt="ING" class="w-6 h-6 rounded">
+              <h1 class="text-lg font-semibold text-gray-900">${this.title}</h1>
             </div>     
             
             <!-- Action Buttons -->
             <div class="flex space-x-4">
+                <app-button 
+                title="Employees" 
+                icon="user-plus" 
+                variant="ghost">
+              </app-button>
               <app-button 
                 title="Add New" 
-                icon="user-plus" 
+                icon="plus" 
                 variant="ghost">
               </app-button>
               <app-button 
@@ -38,8 +42,8 @@ export class AppHeader extends BaseComponent {
                 variant="ghost">
               </app-button>
             </div>
+          </div>  
           </div>
-        </div>
       </header>
     `;
   }

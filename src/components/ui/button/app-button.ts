@@ -58,6 +58,11 @@ export class AppButton extends HTMLElement {
           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
           : 'bg-orange-100 text-orange-700 hover:bg-orange-200 active:bg-orange-300';
         break;
+      case 'info':
+        variantClasses = disabled
+          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          : 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700';
+        break;
       case 'ghost':
         variantClasses = disabled
           ? 'text-gray-400 cursor-not-allowed'

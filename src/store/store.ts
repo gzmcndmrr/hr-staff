@@ -1,4 +1,8 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import employeeReducer, { setViewMode, toggleViewMode } from '@/store/slices/employeeSlice';
+
+export type { ViewMode } from '@/store/slices/employeeSlice';
+export { setViewMode, toggleViewMode };
 
 const placeholderSlice = createSlice({
   name: 'placeholder',
@@ -8,6 +12,7 @@ const placeholderSlice = createSlice({
 
 export const store = configureStore({
   reducer: {
+    employee: employeeReducer,
     placeholder: placeholderSlice.reducer,
   },
 });

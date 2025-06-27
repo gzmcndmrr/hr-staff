@@ -1,16 +1,18 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { BaseComponent } from '@/components/common/base-component.js';
-import { tableStaffColumns, headerColumnClass, sampleData, DEFAULT_CURRENT_PAGE, DEFAULT_ITEMS_PER_PAGE } from '@/components/ui/table/table.utils.js';
+import { tableStaffColumns, headerColumnClass, DEFAULT_CURRENT_PAGE, DEFAULT_ITEMS_PER_PAGE } from '@/components/ui/table/table.utils.js';
 import { TableStaffData } from '@/components/ui/table/table.type.js';
-import { Edit, Trash2, Menu, Grid3X3 } from 'lucide';
+import { Edit, Trash2 } from 'lucide';
 import '@/components/ui/table/table-pagination.ts';
 import '@/components/ui/icon/app-icon.ts';
+import '@/components/common/employee-header';
+import { store } from '@/store/store.js';
 
 @customElement('app-table')
 export class AppTable extends BaseComponent {
   @property({ type: Array })
-  data: TableStaffData[] = sampleData;
+  data: TableStaffData[] = [];
 
   @property({ type: Array })
   selectedIds: number[] = [];
@@ -20,6 +22,32 @@ export class AppTable extends BaseComponent {
 
   @property({ type: Number })
   itemsPerPage: number = DEFAULT_ITEMS_PER_PAGE;
+
+  private storeUnsubscribe?: () => void;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    
+    this.updateDataFromStore();
+    
+    this.storeUnsubscribe = store.subscribe(() => {
+      this.updateDataFromStore();
+    });
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    
+    if (this.storeUnsubscribe) {
+      this.storeUnsubscribe();
+    }
+  }
+
+  private updateDataFromStore() {
+    const state = store.getState();
+    this.data = state.employee.employees;
+    this.requestUpdate();
+  }
 
   private get paginatedData(): TableStaffData[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -42,10 +70,8 @@ export class AppTable extends BaseComponent {
     const allPaginatedSelected = paginatedIds.every(id => this.selectedIds.includes(id));
     
     if (allPaginatedSelected) {
-      // Deselect all items on current page
       this.selectedIds = this.selectedIds.filter(id => !paginatedIds.includes(id));
     } else {
-      // Select all items on current page
       const newSelections = paginatedIds.filter(id => !this.selectedIds.includes(id));
       this.selectedIds = [...this.selectedIds, ...newSelections];
     }
@@ -79,24 +105,7 @@ export class AppTable extends BaseComponent {
 
   override render() {
     return html`
-      <div class="overflow-x-auto  rounded-lg">
-      <div class="flex justify-between items-center mb-8">
-              <h1 class="text-2xl font-bold text-orange-500">Employee List</h1>
-              <div class="flex gap-2">
-                 <button class="flex items-center text-white rounded-lg transition-colors">
-                   <app-icon 
-                    .iconComponent=${Menu} 
-                    class="w-6 h-6 text-orange-500">
-                   </app-icon>
-                  </button>
-                 <button class="flex items-center text-white rounded-lg transition-colors">
-                    <app-icon 
-                       .iconComponent=${Grid3X3} 
-                        class="w-6 h-6 text-orange-500">
-                    </app-icon>
-                  </button>
-              </div>
-      </div>
+      <div class="overflow-x-auto rounded-lg">
         <table class="min-w-full bg-white border border-gray-200">
           <thead class="bg-white h-16">
             <tr>
