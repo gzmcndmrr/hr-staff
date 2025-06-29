@@ -2,23 +2,16 @@ import { SelectOption } from "@/components/ui/select/select.type";
 import { EmployeeFormData } from "./models/employee";
 
 export const departments: SelectOption[] = [
-    { value: 'human-resources', label: 'Human Resources' },
-    { value: 'information-technology', label: 'Information Technology' },
-    { value: 'marketing', label: 'Marketing' },
-    { value: 'sales', label: 'Sales' },
-    { value: 'finance', label: 'Finance' },
-    { value: 'operations', label: 'Operations' },
-    { value: 'research-development', label: 'Research & Development' }
+    { value: 'IT', label: 'Information Technology' },
+    { value: 'Tasarım', label: 'Design' },
+    { value: 'İK', label: 'Human Resources' },
+    { value: 'Pazarlama', label: 'Marketing' }
   ];
 
   export const positions: SelectOption[] = [
-    { value: 'manager', label: 'Manager' },
-    { value: 'specialist', label: 'Specialist' },
-    { value: 'senior-specialist', label: 'Senior Specialist' },
-    { value: 'assistant-specialist', label: 'Assistant Specialist' },
-    { value: 'intern', label: 'Intern' },
-    { value: 'coordinator', label: 'Coordinator' },
-    { value: 'analyst', label: 'Analyst' }
+    { value: 'Junior', label: 'Junior' },
+    { value: 'Middle', label: 'Middle' },
+    { value: 'Senior', label: 'Senior' }
   ];
 
   export const validateField = (field: keyof EmployeeFormData, value: string): string | undefined => {

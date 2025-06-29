@@ -6,9 +6,12 @@ import { TableStaffData } from '@/components/ui/table/table.type.js';
 import { Edit, Trash2 } from 'lucide';
 import '@/components/ui/table/table-pagination.ts';
 import '@/components/ui/icon/app-icon.ts';
+import '@/components/ui/modal/app-modal.ts';
 import '@/views/employee/components/employee-header';
 import { store } from '@/store/store.js';
-import { showEditEmployee } from '@/store/slices/employeeSlice.js';
+import { showEditEmployee, deleteEmployee } from '@/store/slices/employeeSlice.js';
+import { showConfirmModal } from '@/utils/modal';
+import { t } from '@/utils/i18n.js';
 
 @customElement('app-table')
 export class AppTable extends BaseComponent {
@@ -108,6 +111,21 @@ export class AppTable extends BaseComponent {
     store.dispatch(showEditEmployee(id));
   }
 
+  private handleDeleteEmployee(id: number): void {
+    const employee = this.data.find(emp => emp.id === id);
+    const employeeName = employee ? `${employee.firstName} ${employee.lastName}` : t('messages.unknownEmployee');
+    
+    showConfirmModal({
+      title: t('messages.confirm'),
+      description: t('messages.deleteEmployeeConfirm', { employeeName }),
+      proceedText: t('actions.proceed'),
+      cancelText: t('actions.cancel'),
+      onProceed: () => {
+        store.dispatch(deleteEmployee(id));
+      }
+    });
+  }
+
   override render() {
     return html`
       <div class="overflow-x-auto rounded-lg">
@@ -162,7 +180,10 @@ export class AppTable extends BaseComponent {
                     >
                     </app-icon>
                   </button>
-                  <button class="text-orange-500 w-6 h-6 hover:text-orange-700">
+                  <button 
+                    class="text-orange-500 w-6 h-6 hover:text-orange-700"
+                    @click=${() => this.handleDeleteEmployee(item.id)}
+                  >
                     <app-icon 
                       .iconComponent=${Trash2} 
                       class="w-6 h-6 text-orange-500">

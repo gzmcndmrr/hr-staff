@@ -13,7 +13,7 @@ import {
 import { departments, positions, validateField } from '@/views/employee/employee.util';
 import { SelectOption } from '@/components/ui/select/select.type';
 import { store } from '@/store/store';
-import { addEmployee, updateEmployee } from '@/store/slices/employeeSlice';
+import { addEmployee, updateEmployee, showEmployeeList } from '@/store/slices/employeeSlice';
 import { TableStaffData } from '@/components/ui/table/table.type';
 import '@/components/ui/select/app-select';
 
@@ -316,6 +316,8 @@ export class EmployeeForm extends BaseComponent {
         this.resetForm();
       }
 
+      store.dispatch(showEmployeeList());
+
     } catch (error) {
       console.error('Form submission error:', error);
     } finally {
@@ -336,11 +338,7 @@ export class EmployeeForm extends BaseComponent {
   }
 
   private handleReset(): void {
-    if (this.isEdit && this.formState.employee) {
-      this.initializeForm(this.formState.employee);
-    } else {
-      this.resetForm();
-    }
+      store.dispatch(showEmployeeList());
   }
 
   private renderFormField(
@@ -409,7 +407,6 @@ export class EmployeeForm extends BaseComponent {
             ${this.renderFormField('position', 'text', positions)}
           </div>
 
-          <!-- Form Actions -->
           <div class="flex space-x-3 pt-4 justify-center w-2/4 mx-auto">
             <button
               type="submit"
@@ -437,7 +434,7 @@ export class EmployeeForm extends BaseComponent {
               ?disabled=${this.formState.isSubmitting}
               class="flex-1 text-gray-700 border border-gray-400 py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              ${this.isEdit ? this.tCommon('actions.reset') : this.tCommon('actions.cancel')}
+              ${this.tCommon('actions.cancel')}
             </button>
           </div>
         </form>

@@ -24,7 +24,8 @@
     "next": "İleri",
     "previous": "Önceki",
     "view": "Görüntüle",
-    "close": "Kapat"
+    "close": "Kapat",
+    "proceed": "Devam Et"
   },
   "messages": {
     "loading": "Yükleniyor...",
@@ -32,7 +33,9 @@
     "error": "Bir hata oluştu",
     "success": "İşlem başarıyla tamamlandı",
     "confirm": "Emin misiniz?",
-    "deleteConfirm": "Bu öğeyi silmek istediğinizden emin misiniz?"
+    "deleteConfirm": "Bu öğeyi silmek istediğinizden emin misiniz?",
+    "deleteEmployeeConfirm": "{{employeeName}} adlı çalışanın kaydı silinecektir",
+    "unknownEmployee": "Bu çalışan"
   },
   "validation": {
     "required": "Bu alan zorunludur",
