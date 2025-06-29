@@ -8,6 +8,7 @@ import '@/components/ui/table/table-pagination.ts';
 import '@/components/ui/icon/app-icon.ts';
 import '@/views/employee/components/employee-header';
 import { store } from '@/store/store.js';
+import { showEditEmployee } from '@/store/slices/employeeSlice.js';
 
 @customElement('app-table')
 export class AppTable extends BaseComponent {
@@ -103,6 +104,10 @@ export class AppTable extends BaseComponent {
     return selectedOnPage.length > 0 && selectedOnPage.length < paginatedIds.length;
   }
 
+  private handleEditEmployee(id: number): void {
+    store.dispatch(showEditEmployee(id));
+  }
+
   override render() {
     return html`
       <div class="overflow-x-auto rounded-lg">
@@ -147,7 +152,10 @@ export class AppTable extends BaseComponent {
                 </td>
                 <td class="table-cell">${item.position}</td>
                 <td class="table-cell">
-                  <button class="text-orange-500 w-6 h-6 hover:text-orange-700 mr-2">
+                  <button 
+                    class="text-orange-500 w-6 h-6 hover:text-orange-700 mr-2"
+                    @click=${() => this.handleEditEmployee(item.id)}
+                  >
                     <app-icon 
                       .iconComponent=${Edit} 
                       class="w-6 h-6 text-orange-500" 

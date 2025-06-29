@@ -20,6 +20,8 @@
       "department": "Department",
       "position": "Position",
       "startDate": "Start Date",
+      "dateOfEmployment": "Date of Employment",
+      "dateOfBirth": "Date of Birth",
       "salary": "Salary",
       "status": "Status",
       "address": "Address",
@@ -33,8 +35,11 @@
       "phone": "Enter phone number",
       "department": "Select department",
       "position": "Enter position",
-      "address": "Enter address"
-    }
+      "address": "Enter address",
+      "select": "Select..."
+    },
+    "processing": "Processing...",
+    "requiredField": "*"
   },
   "status": {
     "active": "Active",

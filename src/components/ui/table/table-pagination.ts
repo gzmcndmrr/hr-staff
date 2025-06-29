@@ -84,7 +84,6 @@ export class TablePagination extends BaseComponent {
     return html`
       <div class="flex items-center justify-between bg-white px-4 py-3 sm:px-6">
         <div class="flex flex-1 justify-between sm:hidden">
-          <!-- Mobile pagination -->
           <button
             @click=${() => this.goToPage(this.currentPage - 1)}
             ?disabled=${this.currentPage === 1}

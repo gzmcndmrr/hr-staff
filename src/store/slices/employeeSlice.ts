@@ -9,12 +9,18 @@ export interface EmployeeState {
   viewMode: ViewMode;
   currentView: CurrentView;
   employees: TableStaffData[];
+  selectedEmployeeId: number | null;
+  isLoading: boolean;
+  error: string | null;
 }
 
 const initialEmployeeState: EmployeeState = {
   viewMode: 'list',
   currentView: 'employeeList',
-  employees: employeesData as TableStaffData[]
+  employees: employeesData as TableStaffData[],
+  selectedEmployeeId: null,
+  isLoading: false,
+  error: null
 };
 
 const employeeSlice = createSlice({
@@ -35,6 +41,19 @@ const employeeSlice = createSlice({
     },
     showAddNew: (state) => {
       state.currentView = 'addNew';
+    },
+    setSelectedEmployeeId: (state, action: PayloadAction<number | null>) => {
+      state.selectedEmployeeId = action.payload;
+    },
+    showEditEmployee: (state, action: PayloadAction<number>) => {
+      state.currentView = 'addNew';
+      state.selectedEmployeeId = action.payload;
+    },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
     },
     addEmployee: (state, action: PayloadAction<TableStaffData>) => {
       state.employees.push(action.payload);
@@ -57,6 +76,10 @@ export const {
   setCurrentView,
   showEmployeeList,
   showAddNew,
+  setSelectedEmployeeId,
+  showEditEmployee,
+  setLoading,
+  setError,
   addEmployee, 
   updateEmployee, 
   deleteEmployee 

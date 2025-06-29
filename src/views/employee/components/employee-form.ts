@@ -1,117 +1,313 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { BaseComponent } from '@/components/common/base-component';
-import { TableStaffData } from '@/components/ui/table/table.type';
 import { Loader2 } from 'lucide';
-import { EmployeeFormData } from '@/views/employee/models/employee';
+import { 
+  EmployeeFormData, 
+  Employee,
+  EmployeeFormFieldKeys,
+  EmployeeFormValidation,
+  EmployeeFormSubmitDetail,
+  EmployeeFormState
+} from '@/views/employee/models/employee';
 import { departments, positions, validateField } from '@/views/employee/employee.util';
 import { SelectOption } from '@/components/ui/select/select.type';
+import { store } from '@/store/store';
+import { addEmployee, updateEmployee } from '@/store/slices/employeeSlice';
+import { TableStaffData } from '@/components/ui/table/table.type';
 import '@/components/ui/select/app-select';
 
 @customElement('employee-form')
 export class EmployeeForm extends BaseComponent {
-  @property({ type: Object }) employee?: TableStaffData;
-  @property({ type: Boolean }) isEdit: boolean = false;
+  @property({ type: [String, Number] }) employeeId?: string | number | null;
 
-  @state() private formData: EmployeeFormData = {
-    firstName: { value: '', touched: false },
-    lastName: { value: '', touched: false },
-    dateOfEmployment: { value: '', touched: false },
-    dateOfBirth: { value: '', touched: false },
-    phone: { value: '', touched: false },
-    email: { value: '', touched: false },
-    department: { value: '', touched: false },
-    position: { value: '', touched: false }
+  @state() private formState: EmployeeFormState = {
+    formData: this.initializeEmptyForm(),
+    isSubmitting: false,
+    isEdit: false,
+    employee: undefined
   };
 
-  @state() private isSubmitting: boolean = false;
+  private get isEdit(): boolean {
+    return this.employeeId !== null && this.employeeId !== undefined;
+  }
 
   override connectedCallback() {
     super.connectedCallback();
-    if (this.employee && this.isEdit) {
-      this.initializeForm();
+    this.initializeComponent();
+  }
+
+  private async initializeComponent(): Promise<void> {
+    this.formState = {
+      ...this.formState,
+      isEdit: this.isEdit
+    };
+    
+    if (this.isEdit && this.employeeId) {
+      await this.loadEmployeeData();
     }
   }
 
-  private initializeForm() {
-    if (this.employee) {
-      this.formData = {
-        firstName: { value: this.employee.firstName || '', touched: false },
-        lastName: { value: this.employee.lastName || '', touched: false },
-        dateOfEmployment: { value: '', touched: false },
-        dateOfBirth: { value: '', touched: false },
-        phone: { value: '', touched: false },
-        email: { value: '', touched: false },
-        department: { value: '', touched: false },
-        position: { value: '', touched: false }
+  private async loadEmployeeData(): Promise<void> {
+    try {
+      const employee = this.findEmployeeById(this.employeeId);
+      if (employee) {
+        this.formState = {
+          ...this.formState,
+          employee: employee
+        };
+        this.initializeForm(employee);
+      } else {
+        console.error(`Employee with ID ${this.employeeId} not found`);
+      }
+    } catch (error) {
+      console.error('Error loading employee data:', error);
+    }
+  }
+
+  private findEmployeeById(id: string | number | null | undefined): Employee | null {
+    if (id === null || id === undefined) return null;
+    
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+    const state = store.getState();
+    const employeeData = state.employee.employees.find(emp => emp.id === numericId);
+    
+    if (employeeData) {
+      return this.convertTableStaffDataToEmployee(employeeData);
+    }
+    
+    return null;
+  }
+
+  private convertTableStaffDataToEmployee(data: TableStaffData): Employee {
+    return {
+      id: data.id.toString(),
+      firstName: data.firstName,
+      lastName: data.lastName,
+      dateOfEmployment: data.dateOfEmployment,
+      dateOfBirth: data.dateOfBirth,
+      phone: data.phone,
+      email: data.email,
+      department: data.department,
+      position: data.position
+    };
+  }
+
+  private convertEmployeeToTableStaffData(employee: Employee, id?: number): TableStaffData {
+    return {
+      id: id || parseInt(employee.id || '0', 10),
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      dateOfEmployment: employee.dateOfEmployment,
+      dateOfBirth: employee.dateOfBirth,
+      phone: employee.phone,
+      email: employee.email,
+      department: employee.department,
+      position: employee.position
+    };
+  }
+
+  private generateUniqueId(): number {
+    const state = store.getState();
+    const maxId = state.employee.employees.reduce((max, emp) => Math.max(max, emp.id), 0);
+    return maxId + 1;
+  }
+
+  public getCurrentEmployeeCount(): number {
+    const state = store.getState();
+    return state.employee.employees.length;
+  }
+
+  public getAllEmployees() {
+    const state = store.getState();
+    return state.employee.employees;
+  }
+
+  private addNewEmployeeToStore(formData: Record<string, string>): Employee {
+    const newId = this.generateUniqueId();
+    
+    const newEmployee: Employee = {
+      id: newId.toString(),
+      firstName: formData['firstName'] ?? '',
+      lastName: formData['lastName'] ?? '',
+      dateOfEmployment: formData['dateOfEmployment'] ?? '',
+      dateOfBirth: formData['dateOfBirth'] ?? '',
+      phone: formData['phone'] ?? '',
+      email: formData['email'] ?? '',
+      department: formData['department'] ?? '',
+      position: formData['position'] ?? ''
+    };
+
+    const tableStaffData = this.convertEmployeeToTableStaffData(newEmployee, newId);
+    store.dispatch(addEmployee(tableStaffData));
+
+    return newEmployee;
+  }
+
+  private updateEmployeeInStore(formData: Record<string, string>): Employee | undefined {
+    if (!this.employeeId) return undefined;
+    
+    const numericId = typeof this.employeeId === 'string' ? parseInt(this.employeeId, 10) : this.employeeId;
+    
+    const updatedEmployee: Employee = {
+      id: numericId.toString(),
+      firstName: formData['firstName'] ?? '',
+      lastName: formData['lastName'] ?? '',
+      dateOfEmployment: formData['dateOfEmployment'] ?? '',
+      dateOfBirth: formData['dateOfBirth'] ?? '',
+      phone: formData['phone'] ?? '',
+      email: formData['email'] ?? '',
+      department: formData['department'] ?? '',
+      position: formData['position'] ?? ''
+    };
+
+    const tableStaffData = this.convertEmployeeToTableStaffData(updatedEmployee, numericId);
+    store.dispatch(updateEmployee(tableStaffData));
+
+    return updatedEmployee;
+  }
+
+  private initializeEmptyForm(): EmployeeFormData {
+    return {
+      firstName: { value: '', touched: false },
+      lastName: { value: '', touched: false },
+      dateOfEmployment: { value: '', touched: false },
+      dateOfBirth: { value: '', touched: false },
+      phone: { value: '', touched: false },
+      email: { value: '', touched: false },
+      department: { value: '', touched: false },
+      position: { value: '', touched: false }
+    };
+  }
+
+  private initializeForm(employee?: Employee): void {
+    if (employee) {
+      this.formState = {
+        ...this.formState,
+        formData: {
+          firstName: { value: employee.firstName || '', touched: false },
+          lastName: { value: employee.lastName || '', touched: false },
+          dateOfEmployment: { value: employee.dateOfEmployment || '', touched: false },
+          dateOfBirth: { value: employee.dateOfBirth || '', touched: false },
+          phone: { value: employee.phone || '', touched: false },
+          email: { value: employee.email || '', touched: false },
+          department: { value: employee.department || '', touched: false },
+          position: { value: employee.position || '', touched: false }
+        }
       };
     }
   }
 
-  private handleInputChange(field: keyof EmployeeFormData, value: string) {
+  private handleInputChange(field: EmployeeFormFieldKeys, value: string): void {
     const error = validateField(field, value);
-    this.formData = {
-      ...this.formData,
-      [field]: {
-        value,
-        error,
-        touched: true
+    this.formState = {
+      ...this.formState,
+      formData: {
+        ...this.formState.formData,
+        [field]: {
+          value,
+          error,
+          touched: true
+        }
       }
     };
     this.requestUpdate();
   }
 
-  private handleBlur(field: keyof EmployeeFormData) {
-    const currentField = this.formData[field];
+  private handleBlur(field: EmployeeFormFieldKeys): void {
+    const currentField = this.formState.formData[field];
     const error = validateField(field, currentField.value);
-    this.formData = {
-      ...this.formData,
-      [field]: {
-        ...currentField,
-        error,
-        touched: true
+    this.formState = {
+      ...this.formState,
+      formData: {
+        ...this.formState.formData,
+        [field]: {
+          ...currentField,
+          error,
+          touched: true
+        }
       }
     };
     this.requestUpdate();
   }
 
-  private isFormValid(): boolean {
-    const hasErrors = Object.values(this.formData).some(field => field.error);
-    const allFieldsFilled = Object.values(this.formData).every(field => field.value.trim());
-    return !hasErrors && allFieldsFilled;
+  private validateForm(): EmployeeFormValidation {
+    const errors: Partial<Record<EmployeeFormFieldKeys, string>> = {};
+    let hasErrors = false;
+
+    Object.entries(this.formState.formData).forEach(([key, field]) => {
+      const fieldKey = key as EmployeeFormFieldKeys;
+      const error = validateField(fieldKey, field.value);
+      if (error) {
+        errors[fieldKey] = error;
+        hasErrors = true;
+      }
+    });
+
+    const allFieldsFilled = Object.values(this.formState.formData).every(field => field.value.trim());
+    const isValid = !hasErrors && allFieldsFilled;
+
+    return {
+      isValid,
+      errors
+    };
   }
 
-  private async handleSubmit(e: Event) {
+  private async handleSubmit(e: Event): Promise<void> {
     e.preventDefault();
     
-    this.formData = Object.fromEntries(
-      Object.entries(this.formData).map(([key, field]) => [
+    const touchedFormData = Object.fromEntries(
+      Object.entries(this.formState.formData).map(([key, field]) => [
         key,
-        { ...field, touched: true, error: validateField(key as keyof EmployeeFormData, field.value) }
+        { 
+          ...field, 
+          touched: true, 
+          error: validateField(key as EmployeeFormFieldKeys, field.value) 
+        }
       ])
     ) as EmployeeFormData;
-    
-    if (!this.isFormValid()) {
+
+    this.formState = {
+      ...this.formState,
+      formData: touchedFormData
+    };
+
+    const validation = this.validateForm();
+    if (!validation.isValid) {
       this.requestUpdate();
       return;
     }
 
-    this.isSubmitting = true;
+    this.formState = {
+      ...this.formState,
+      isSubmitting: true
+    };
     this.requestUpdate();
 
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const formResult = Object.fromEntries(
-        Object.entries(this.formData).map(([key, field]) => [key, field.value.trim()])
+        Object.entries(this.formState.formData).map(([key, field]) => [key, field.value.trim()])
       );
 
+      let newEmployee: Employee | undefined;
+      
+      if (!this.isEdit) {
+        newEmployee = this.addNewEmployeeToStore(formResult);
+      } else {
+        newEmployee = this.updateEmployeeInStore(formResult);
+      }
+
+      const submitDetail: EmployeeFormSubmitDetail = {
+        data: formResult,
+        isEdit: this.isEdit,
+        ...(this.formState.employee && { originalEmployee: this.formState.employee }),
+        ...(newEmployee && { newEmployee: newEmployee })
+      };
+
       this.dispatchEvent(new CustomEvent('form-submit', {
-        detail: {
-          data: formResult,
-          isEdit: this.isEdit,
-          originalEmployee: this.employee
-        },
+        detail: submitDetail,
         bubbles: true,
         composed: true
       }));
@@ -123,53 +319,52 @@ export class EmployeeForm extends BaseComponent {
     } catch (error) {
       console.error('Form submission error:', error);
     } finally {
-      this.isSubmitting = false;
+      this.formState = {
+        ...this.formState,
+        isSubmitting: false
+      };
       this.requestUpdate();
     }
   }
 
-  private resetForm() {
-    this.formData = {
-      firstName: { value: '', touched: false },
-      lastName: { value: '', touched: false },
-      dateOfEmployment: { value: '', touched: false },
-      dateOfBirth: { value: '', touched: false },
-      phone: { value: '', touched: false },
-      email: { value: '', touched: false },
-      department: { value: '', touched: false },
-      position: { value: '', touched: false }
+  private resetForm(): void {
+    this.formState = {
+      ...this.formState,
+      formData: this.initializeEmptyForm()
     };
     this.requestUpdate();
   }
 
-  private handleReset() {
-    if (this.isEdit && this.employee) {
-      this.initializeForm();
+  private handleReset(): void {
+    if (this.isEdit && this.formState.employee) {
+      this.initializeForm(this.formState.employee);
     } else {
       this.resetForm();
     }
   }
 
   private renderFormField(
-    id: keyof EmployeeFormData,
-    label: string,
+    id: EmployeeFormFieldKeys,
     type: string = 'text',
     options?: SelectOption[]
   ) {
-    const field = this.formData[id];
+    const field = this.formState.formData[id];
+    const label = this.tEmployee(`form.fields.${id}`);
+    const placeholder = options ? this.tEmployee('form.placeholders.select') : '';
+    
     return html`
       <div class="form-group">
         <label for="${id}" class="block text-sm font-medium text-gray-700 mb-1">
-          ${label} *
+          ${label} ${this.tEmployee('form.requiredField')}
         </label>
         ${options ? html`
           <app-select
             .value=${field.value}
             .options=${options}
-            .disabled=${this.isSubmitting}
+            .disabled=${this.formState.isSubmitting}
             .hasError=${field.touched && !!field.error}
             .error=${field.error || ''}
-            placeholder="Select..."
+            placeholder="${placeholder}"
             @select-change=${(e: CustomEvent) => this.handleInputChange(id, e.detail.value)}
             @select-blur=${() => this.handleBlur(id)}
           ></app-select>
@@ -185,7 +380,7 @@ export class EmployeeForm extends BaseComponent {
                 ? 'border-red-500 bg-red-50' 
                 : 'border-gray-400'
             }"
-            ?disabled=${this.isSubmitting}
+            ?disabled=${this.formState.isSubmitting}
           />
         `}
         ${!options && field.touched && field.error
@@ -197,29 +392,31 @@ export class EmployeeForm extends BaseComponent {
   }
 
   override render() {
+    const validation = this.validateForm();
+    
     return html`
       <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-md p-6">
         <form @submit=${this.handleSubmit} class="space-y-6">
           <!-- Form Fields Grid -->
           <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4">
-            ${this.renderFormField('firstName', 'First Name')}
-            ${this.renderFormField('lastName', 'Last Name')}
-            ${this.renderFormField('dateOfEmployment', 'Date of Employment', 'date')}
-            ${this.renderFormField('dateOfBirth', 'Date of Birth', 'date')}
-            ${this.renderFormField('phone', 'Phone')}
-            ${this.renderFormField('email', 'Email', 'email')}
-            ${this.renderFormField('department', 'Department', 'text', departments)}
-            ${this.renderFormField('position', 'Position', 'text', positions)}
+            ${this.renderFormField('firstName')}
+            ${this.renderFormField('lastName')}
+            ${this.renderFormField('dateOfEmployment', 'date')}
+            ${this.renderFormField('dateOfBirth', 'date')}
+            ${this.renderFormField('phone')}
+            ${this.renderFormField('email', 'email')}
+            ${this.renderFormField('department', 'text', departments)}
+            ${this.renderFormField('position', 'text', positions)}
           </div>
 
           <!-- Form Actions -->
           <div class="flex space-x-3 pt-4 justify-center w-2/4 mx-auto">
             <button
               type="submit"
-              ?disabled=${this.isSubmitting || !this.isFormValid()}
+              ?disabled=${this.formState.isSubmitting || !validation.isValid}
               class="flex-1 bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              ${this.isSubmitting 
+              ${this.formState.isSubmitting 
                 ? html`
                     <span class="flex items-center justify-center">
                       <app-icon 
@@ -227,20 +424,20 @@ export class EmployeeForm extends BaseComponent {
                         class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
                         stroke="currentColor">
                       </app-icon>
-                      Processing...
+                      ${this.tEmployee('form.processing')}
                     </span>
                   `
-                : this.isEdit ? 'Update' : 'Add'
+                : this.isEdit ? this.tCommon('actions.update') : this.tCommon('actions.add')
               }
             </button>
             
             <button
               type="button"
               @click=${this.handleReset}
-              ?disabled=${this.isSubmitting}
+              ?disabled=${this.formState.isSubmitting}
               class="flex-1 text-gray-700 border border-gray-400 py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              ${this.isEdit ? 'Reset' : 'Cancel'}
+              ${this.isEdit ? this.tCommon('actions.reset') : this.tCommon('actions.cancel')}
             </button>
           </div>
         </form>

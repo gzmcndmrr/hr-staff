@@ -15,6 +15,7 @@ export class EmployeeView extends BaseComponent {
   @state() private viewMode: 'list' | 'grid' = 'list';
   @state() private employees: TableStaffData[] = [];
   @state() private currentView: 'employeeList' | 'addNew' = 'employeeList';
+  @state() private selectedEmployeeId: number | null = null;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -27,6 +28,7 @@ export class EmployeeView extends BaseComponent {
     this.viewMode = state.employee.viewMode;
     this.employees = state.employee.employees;
     this.currentView = state.employee.currentView;
+    this.selectedEmployeeId = state.employee.selectedEmployeeId;
   }
 
 
@@ -45,8 +47,8 @@ export class EmployeeView extends BaseComponent {
             </main>
           `
           : html`
-          <employee-header title="${this.tEmployee('form.addTitle')}" isHideActionButtons></employee-header>
-          <employee-form></employee-form>`
+          <employee-header title="${this.selectedEmployeeId ? this.tEmployee('form.editTitle') : this.tEmployee('form.addTitle')}" isHideActionButtons></employee-header>
+          <employee-form .employeeId=${this.selectedEmployeeId}></employee-form>`
         }
       </div>
     `;

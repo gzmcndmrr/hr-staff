@@ -14,6 +14,8 @@
     "delete": "Delete",
     "save": "Save",
     "cancel": "Cancel",
+    "update": "Update",
+    "reset": "Reset",
     "search": "Search",
     "filter": "Filter",
     "export": "Export",

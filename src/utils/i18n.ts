@@ -9,8 +9,8 @@ export interface I18nConfig {
 }
 
 export const i18nConfig: I18nConfig = {
-  defaultLanguage: 'tr',
-  supportedLanguages: ['tr', 'en'],
+  defaultLanguage: 'en',
+  supportedLanguages: ['en', 'tr'],
   fallbackLanguage: 'en'
 };
 
