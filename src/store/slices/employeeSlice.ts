@@ -3,14 +3,17 @@ import { TableStaffData } from '../../components/ui/table/table.type';
 import employeesData from '../../mocks/employees.json';
 
 export type ViewMode = 'grid' | 'list';
+export type CurrentView = 'employeeList' | 'addNew';
 
 export interface EmployeeState {
   viewMode: ViewMode;
+  currentView: CurrentView;
   employees: TableStaffData[];
 }
 
 const initialEmployeeState: EmployeeState = {
   viewMode: 'list',
+  currentView: 'employeeList',
   employees: employeesData as TableStaffData[]
 };
 
@@ -23,6 +26,15 @@ const employeeSlice = createSlice({
     },
     toggleViewMode: (state) => {
       state.viewMode = state.viewMode === 'grid' ? 'list' : 'grid';
+    },
+    setCurrentView: (state, action: PayloadAction<CurrentView>) => {
+      state.currentView = action.payload;
+    },
+    showEmployeeList: (state) => {
+      state.currentView = 'employeeList';
+    },
+    showAddNew: (state) => {
+      state.currentView = 'addNew';
     },
     addEmployee: (state, action: PayloadAction<TableStaffData>) => {
       state.employees.push(action.payload);
@@ -39,5 +51,14 @@ const employeeSlice = createSlice({
   }
 });
 
-export const { setViewMode, toggleViewMode, addEmployee, updateEmployee, deleteEmployee } = employeeSlice.actions;
+export const { 
+  setViewMode, 
+  toggleViewMode, 
+  setCurrentView,
+  showEmployeeList,
+  showAddNew,
+  addEmployee, 
+  updateEmployee, 
+  deleteEmployee 
+} = employeeSlice.actions;
 export default employeeSlice.reducer; 

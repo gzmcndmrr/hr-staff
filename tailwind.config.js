@@ -34,6 +34,7 @@ export default {
         'card-sm': '400px',
         'card-lg': '600px',
         'card-xl': '700px',
+        'form-input': '300px',
       },
       boxShadow: {
         'soft': '0 2px 8px rgba(0, 0, 0, 0.1)',

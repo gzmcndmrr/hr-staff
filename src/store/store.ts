@@ -1,8 +1,8 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-import employeeReducer, { setViewMode, toggleViewMode } from '@/store/slices/employeeSlice';
+import employeeReducer, { setViewMode, toggleViewMode, showEmployeeList, showAddNew, setCurrentView } from '@/store/slices/employeeSlice';
 
-export type { ViewMode } from '@/store/slices/employeeSlice';
-export { setViewMode, toggleViewMode };
+export type { ViewMode, CurrentView } from '@/store/slices/employeeSlice';
+export { setViewMode, toggleViewMode, showEmployeeList, showAddNew, setCurrentView };
 
 const placeholderSlice = createSlice({
   name: 'placeholder',

@@ -6,7 +6,7 @@ import { TableStaffData } from '@/components/ui/table/table.type.js';
 import { Edit, Trash2 } from 'lucide';
 import '@/components/ui/table/table-pagination.ts';
 import '@/components/ui/icon/app-icon.ts';
-import '@/components/common/employee-header';
+import '@/views/employee/components/employee-header';
 import { store } from '@/store/store.js';
 
 @customElement('app-table')

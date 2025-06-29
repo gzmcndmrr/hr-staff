@@ -6,12 +6,15 @@ import { type TableStaffData } from '@/components/ui/table/table.type.js';
 import '@/components/common/app-header.ts';
 import './components/employee-grid.ts';
 import '@/components/ui/table/table.tsx';
+import '@/views/employee/components/employee-header.ts';
+import '@/views/employee/components/employee-form.ts';
 
 @customElement('employee-view')
 export class EmployeeView extends BaseComponent {
   @property({ type: String }) override title = 'ING';
   @state() private viewMode: 'list' | 'grid' = 'list';
   @state() private employees: TableStaffData[] = [];
+  @state() private currentView: 'employeeList' | 'addNew' = 'employeeList';
 
   override connectedCallback() {
     super.connectedCallback();
@@ -23,19 +26,28 @@ export class EmployeeView extends BaseComponent {
     const state = store.getState() as RootState;
     this.viewMode = state.employee.viewMode;
     this.employees = state.employee.employees;
+    this.currentView = state.employee.currentView;
   }
+
 
   override render() {
     return html`
       <div class="min-h-screen bg-gray-50">
         <app-header title="${this.title}"></app-header>
-        <employee-header title="Employee List"></employee-header>
-        <main class="w-full mx-auto py-6 sm:px-6 lg:px-12">
-          ${this.viewMode === 'list' 
-            ? html`<app-table></app-table>`
-            : html`<employee-grid .employees=${this.employees}></employee-grid>`
-          }
-        </main>
+        ${this.currentView === 'employeeList' 
+          ? html`
+            <employee-header title="Employee List"></employee-header>
+            <main class="w-full mx-auto py-6 sm:px-6 lg:px-12">
+              ${this.viewMode === 'list' 
+                ? html`<app-table></app-table>`
+                : html`<employee-grid .employees=${this.employees}></employee-grid>`
+              }
+            </main>
+          `
+          : html`
+          <employee-header title="Add New Employee" isHideActionButtons></employee-header>
+          <employee-form></employee-form>`
+        }
       </div>
     `;
   }

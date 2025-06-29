@@ -9,6 +9,7 @@ import { store, setViewMode, type ViewMode } from '@/store/store.js';
 export class EmployeeHeader extends BaseComponent {
   @property({ type: String })
   override title: string = 'Employee List';
+  @property({ type: Boolean }) isHideActionButtons: boolean = false;
 
   @state()
   private viewMode: ViewMode = 'list';
@@ -34,7 +35,8 @@ export class EmployeeHeader extends BaseComponent {
   override render() {
     return html`
       <div class="flex justify-between items-center mt-8 mb-4 px-12">
-        <h1 class="text-2xl text-orange-500">${this.title}</h1>
+        <h1 class="text-2xl text-orange-500">${this.title || 'Employee List'}</h1>
+        ${!this.isHideActionButtons ? html`
         <div class="flex space-x-2">
           <button 
             class="flex items-center"
@@ -57,6 +59,7 @@ export class EmployeeHeader extends BaseComponent {
             </app-icon>
           </button>
         </div>
+        ` : ''}
       </div>
     `;
   }

@@ -8,32 +8,41 @@ declare global {
 
 export class AppButton extends HTMLElement {
   static get observedAttributes() {
-    return ['title', 'icon', 'disabled', 'type', 'variant'];
+    return ['title', 'icon', 'disabled', 'type', 'variant', 'id'];
   }
+
+  private boundHandleClick: (event: Event) => void;
 
   constructor() {
     super();
+    this.boundHandleClick = this.handleClick.bind(this);
   }
 
   connectedCallback() {
     this.render();
-    this.addEventListener('click', this.handleClick.bind(this));
+    this.addEventListener('click', this.boundHandleClick);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('click', this.handleClick.bind(this));
+    this.removeEventListener('click', this.boundHandleClick);
   }
 
   attributeChangedCallback() {
     this.render();
   }
 
-  private handleClick() {
+  private handleClick(event: Event) {
     if (this.hasAttribute('disabled')) return;
+    event.stopPropagation();
     
     const clickEvent = new CustomEvent('button-click', {
       bubbles: true,
-      detail: { title: this.getAttribute('title') }
+      composed: true, 
+      detail: {
+        id: this.getAttribute('id'),
+        title: this.getAttribute('title') ?? '',
+        originalEvent: event,
+      }
     });
     this.dispatchEvent(clickEvent);
   }
@@ -43,6 +52,7 @@ export class AppButton extends HTMLElement {
     const icon = this.getAttribute('icon') || '';
     const disabled = this.hasAttribute('disabled');
     const variant = this.getAttribute('variant') || 'primary';
+    const id = this.getAttribute('id') || '';
     
     const baseClasses = 'px-3 py-2 rounded-md font-medium transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 text-sm';
     
@@ -76,6 +86,7 @@ export class AppButton extends HTMLElement {
       <button 
         class="${buttonClasses}"
         type="${this.getAttribute('type') || 'button'}"
+        id=${id}
         ${disabled ? 'disabled' : ''}
       >
         ${icon ? `<i data-lucide="${icon}" class="w-4 h-4"></i>` : ''}

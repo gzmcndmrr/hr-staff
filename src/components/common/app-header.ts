@@ -1,19 +1,36 @@
-import { html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { html } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import { BaseComponent } from '@/components/common/base-component.js';
+import { AppIcon } from '@/components/ui/icon/app-icon.js';
 import logoUrl from '@/assets/logo.png';
-import '@/components/ui/button/app-button.ts';
+import { store } from '@/store/store.js';
+import { showEmployeeList, showAddNew, CurrentView } from '@/store/slices/employeeSlice.js';
+import { Users, Plus } from 'lucide';
 
 @customElement('app-header')
 export class AppHeader extends BaseComponent {
   @property({ type: String }) override title = 'ING';
   @property({ type: String }) currentPath = '/';
+  @state() private currentView: CurrentView = 'employeeList';
 
-  static override styles = css`
-    :host {
-      display: block;
-    }
-  `;
+  override connectedCallback() {
+    super.connectedCallback();
+    this.currentView = store.getState().employee.currentView;
+    store.subscribe(() => {
+      const newCurrentView = store.getState().employee.currentView;
+      if (this.currentView !== newCurrentView) {
+        this.currentView = newCurrentView;
+      }
+    });
+  }
+
+  private handleEmployeesClick(e: Event) {
+    store.dispatch(showEmployeeList());
+  }
+
+  private handleAddNewClick() {
+    store.dispatch(showAddNew());
+  }
 
   override render() {
     return html`
@@ -26,21 +43,33 @@ export class AppHeader extends BaseComponent {
             
             <!-- Action Buttons -->
             <div class="flex space-x-4">
-                <app-button 
-                title="Employees" 
-                icon="user-plus" 
-                variant="ghost">
-              </app-button>
-              <app-button 
-                title="Add New" 
-                icon="plus" 
-                variant="ghost">
-              </app-button>
-              <app-button 
-                title="Lang" 
-                icon="globe" 
-                variant="ghost">
-              </app-button>
+              <button 
+                id="employees"
+                @click="${this.handleEmployeesClick}"
+                class="px-4 py-2 rounded-md font-medium text-sm transition-colors duration-200 flex items-center gap-2 ${
+                  this.currentView === 'employeeList' 
+                    ? 'text-orange-500' 
+                    : ' text-orange-200'
+                }">
+                ${AppIcon.renderIcon(Users, { size: 16, class: 'h-4 w-4' })}
+                Employees
+              </button>
+              <button 
+                id="addNew"
+                @click="${this.handleAddNewClick}"
+                class="px-4 py-2 rounded-md font-medium text-sm transition-colors duration-200 flex items-center gap-2 ${
+                  this.currentView === 'addNew' 
+                    ? 'text-orange-500' 
+                    : ' text-orange-200'
+                }">
+                ${AppIcon.renderIcon(Plus, { size: 16, class: 'h-4 w-4' })}
+                Add New
+              </button>
+              
+              <button 
+                class="px-4 py-2 rounded-md font-medium text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200">
+                Lang
+              </button>
             </div>
           </div>  
           </div>
