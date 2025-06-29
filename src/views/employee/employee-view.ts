@@ -5,7 +5,7 @@ import { store, type RootState } from '@/store/store.js';
 import { type TableStaffData } from '@/components/ui/table/table.type.js';
 import '@/components/common/app-header.ts';
 import './components/employee-grid.ts';
-import '@/components/ui/table/table.tsx';
+import '@/components/ui/table/table.ts';
 import '@/views/employee/components/employee-header.ts';
 import '@/views/employee/components/employee-form.ts';
 

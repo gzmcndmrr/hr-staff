@@ -1,68 +1,32 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import employeesJson from '@/mocks/employees.json';
+import { expect, fixture, html } from '@open-wc/testing';
+import { it, vi, beforeEach } from 'vitest';
+import { store } from '@/store/store';
+import { type RootState } from '@/store/store';
+import '@/views/employee/employee-view.ts';
 
-describe('EmployeeView', () => {
+beforeEach(() => {
+  vi.resetAllMocks();
+});
 
-  const mockEmployees = employeesJson;
-
-  const mockStore = {
-    getState: vi.fn(() => ({
-      employee: {
-        viewMode: 'list',
-        employees: mockEmployees,
-        currentView: 'employeeList',
-        selectedEmployeeId: null,
-      },
-    })),
-    subscribe: vi.fn(),
-    dispatch: vi.fn(),
-  };
-
-  beforeEach(async () => {
-    vi.stubGlobal('store', mockStore);
-  });
-
-  it('should load employees from store and have correct data structure', () => {
-    const state = mockStore.getState();
-    const employees = state.employee.employees;
-
-    expect(employees).toBeDefined();
-    
-    const employee = employees[0];
-    
-    if (employee) {
-      expect(employee).toHaveProperty('id');
-      expect(employee).toHaveProperty('firstName');
-      expect(employee).toHaveProperty('lastName');
-      expect(employee).toHaveProperty('email');
-      expect(employee).toHaveProperty('department');
-      expect(employee).toHaveProperty('position');
-      expect(employee).toHaveProperty('dateOfEmployment');
-      expect(employee).toHaveProperty('dateOfBirth');
-      expect(employee).toHaveProperty('phone');
-    } else {
-      throw new Error('Employee should be defined');
+it('should render app-header, employee-header and app-table when in list view', async () => {
+  vi.spyOn(store, 'getState').mockReturnValue({
+    employee: {
+      viewMode: 'list',
+      employees: [],
+      currentView: 'employeeList',
+      selectedEmployeeId: null
     }
-  });
+  } as unknown as RootState);
 
-  it('should handle empty employees list', () => {
-    const emptyMockStore = {
-      getState: vi.fn(() => ({
-        employee: {
-          viewMode: 'list',
-          employees: [],
-          currentView: 'employeeList',
-          selectedEmployeeId: null,
-        },
-      })),
-      subscribe: vi.fn(),
-      dispatch: vi.fn(),
-    };
+  const el = await fixture(
+    html`<employee-view></employee-view>`
+  );
 
-    const state = emptyMockStore.getState();
-    const employees = state.employee.employees;
+  const root = el.shadowRoot ?? el;
 
-    expect(employees).toBeDefined();
-    expect(employees).toHaveLength(0);
-  });
-}); 
+  expect(root.querySelector('app-header')).to.exist;
+  expect(root.querySelector('employee-header')).to.exist;
+  expect(root.querySelector('app-table')).to.exist;
+  expect(root.querySelector('employee-grid')).to.not.exist;
+  expect(root.querySelector('employee-form')).to.not.exist;
+});
