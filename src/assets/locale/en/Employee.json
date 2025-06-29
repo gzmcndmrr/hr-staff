@@ -1,0 +1,66 @@
+{
+  "title": "Employee Management",
+  "list": {
+    "title": "Employee List",
+    "addNew": "Add New Employee",
+    "viewMode": {
+      "list": "List View",
+      "grid": "Grid View"
+    }
+  },
+  "form": {
+    "title": "Employee Information",
+    "addTitle": "Add New Employee",
+    "editTitle": "Edit Employee",
+    "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "department": "Department",
+      "position": "Position",
+      "startDate": "Start Date",
+      "salary": "Salary",
+      "status": "Status",
+      "address": "Address",
+      "birthDate": "Birth Date",
+      "employeeId": "Employee ID"
+    },
+    "placeholders": {
+      "firstName": "Enter first name",
+      "lastName": "Enter last name",
+      "email": "Enter email address",
+      "phone": "Enter phone number",
+      "department": "Select department",
+      "position": "Enter position",
+      "address": "Enter address"
+    }
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "terminated": "Terminated"
+  },
+  "departments": {
+    "hr": "Human Resources",
+    "it": "Information Technology",
+    "finance": "Finance",
+    "marketing": "Marketing",
+    "sales": "Sales",
+    "operations": "Operations"
+  },
+  "actions": {
+    "viewProfile": "View Profile",
+    "editEmployee": "Edit Employee",
+    "deleteEmployee": "Delete Employee",
+    "activateEmployee": "Activate Employee",
+    "deactivateEmployee": "Deactivate Employee"
+  },
+  "messages": {
+    "employeeAdded": "Employee added successfully",
+    "employeeUpdated": "Employee updated successfully",
+    "employeeDeleted": "Employee deleted successfully",
+    "employeeNotFound": "Employee not found"
+  }
+}

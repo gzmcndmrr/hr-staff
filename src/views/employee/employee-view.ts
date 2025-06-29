@@ -33,10 +33,10 @@ export class EmployeeView extends BaseComponent {
   override render() {
     return html`
       <div class="min-h-screen bg-gray-50">
-        <app-header title="${this.title}"></app-header>
+        <app-header title="${this.tCommon('app.name')}"></app-header>
         ${this.currentView === 'employeeList' 
           ? html`
-            <employee-header title="Employee List"></employee-header>
+            <employee-header title="${this.tEmployee('list.title')}"></employee-header>
             <main class="w-full mx-auto py-6 sm:px-6 lg:px-12">
               ${this.viewMode === 'list' 
                 ? html`<app-table></app-table>`
@@ -45,7 +45,7 @@ export class EmployeeView extends BaseComponent {
             </main>
           `
           : html`
-          <employee-header title="Add New Employee" isHideActionButtons></employee-header>
+          <employee-header title="${this.tEmployee('form.addTitle')}" isHideActionButtons></employee-header>
           <employee-form></employee-form>`
         }
       </div>

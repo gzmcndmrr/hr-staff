@@ -1,0 +1,49 @@
+{
+  "app": {
+    "title": "İK Personel Yönetimi",
+    "name": "ING"
+  },
+  "navigation": {
+    "home": "Ana Sayfa",
+    "employees": "Çalışanlar",
+    "settings": "Ayarlar"
+  },
+  "actions": {
+    "add": "Ekle",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "search": "Ara",
+    "filter": "Filtrele",
+    "export": "Dışa Aktar",
+    "import": "İçe Aktar",
+    "back": "Geri",
+    "next": "İleri",
+    "previous": "Önceki",
+    "view": "Görüntüle",
+    "close": "Kapat"
+  },
+  "messages": {
+    "loading": "Yükleniyor...",
+    "noData": "Veri bulunamadı",
+    "error": "Bir hata oluştu",
+    "success": "İşlem başarıyla tamamlandı",
+    "confirm": "Emin misiniz?",
+    "deleteConfirm": "Bu öğeyi silmek istediğinizden emin misiniz?"
+  },
+  "validation": {
+    "required": "Bu alan zorunludur",
+    "email": "Geçerli bir e-posta adresi giriniz",
+    "phone": "Geçerli bir telefon numarası giriniz",
+    "minLength": "En az {{count}} karakter gerekli",
+    "maxLength": "En fazla {{count}} karakter olabilir"
+  },
+  "table": {
+    "noRecords": "Kayıt bulunamadı",
+    "itemsPerPage": "Sayfa başına öğe",
+    "showing": "{{total}} kayıttan {{from}} - {{to}} arası gösteriliyor",
+    "page": "Sayfa",
+    "of": "/"
+  }
+}

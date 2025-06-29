@@ -1,0 +1,66 @@
+{
+  "title": "Çalışan Yönetimi",
+  "list": {
+    "title": "Çalışan Listesi",
+    "addNew": "Yeni Çalışan Ekle",
+    "viewMode": {
+      "list": "Liste Görünümü",
+      "grid": "Kart Görünümü"
+    }
+  },
+  "form": {
+    "title": "Çalışan Bilgileri",
+    "addTitle": "Yeni Çalışan Ekle",
+    "editTitle": "Çalışan Düzenle",
+    "fields": {
+      "firstName": "Ad",
+      "lastName": "Soyad",
+      "email": "E-posta Adresi",
+      "phone": "Telefon Numarası",
+      "department": "Departman",
+      "position": "Pozisyon",
+      "startDate": "İşe Başlama Tarihi",
+      "salary": "Maaş",
+      "status": "Durum",
+      "address": "Adres",
+      "birthDate": "Doğum Tarihi",
+      "employeeId": "Çalışan ID"
+    },
+    "placeholders": {
+      "firstName": "Adınızı giriniz",
+      "lastName": "Soyadınızı giriniz",
+      "email": "E-posta adresinizi giriniz",
+      "phone": "Telefon numaranızı giriniz",
+      "department": "Departman seçiniz",
+      "position": "Pozisyonunuzu giriniz",
+      "address": "Adresinizi giriniz"
+    }
+  },
+  "status": {
+    "active": "Aktif",
+    "inactive": "Pasif",
+    "pending": "Beklemede",
+    "terminated": "İşten Çıkarıldı"
+  },
+  "departments": {
+    "hr": "İnsan Kaynakları",
+    "it": "Bilgi İşlem",
+    "finance": "Finans",
+    "marketing": "Pazarlama",
+    "sales": "Satış",
+    "operations": "Operasyon"
+  },
+  "actions": {
+    "viewProfile": "Profili Görüntüle",
+    "editEmployee": "Çalışanı Düzenle",
+    "deleteEmployee": "Çalışanı Sil",
+    "activateEmployee": "Çalışanı Aktifleştir",
+    "deactivateEmployee": "Çalışanı Pasifleştir"
+  },
+  "messages": {
+    "employeeAdded": "Çalışan başarıyla eklendi",
+    "employeeUpdated": "Çalışan başarıyla güncellendi",
+    "employeeDeleted": "Çalışan başarıyla silindi",
+    "employeeNotFound": "Çalışan bulunamadı"
+  }
+}

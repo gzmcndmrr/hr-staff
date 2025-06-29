@@ -6,6 +6,7 @@ import logoUrl from '@/assets/logo.png';
 import { store } from '@/store/store.js';
 import { showEmployeeList, showAddNew, CurrentView } from '@/store/slices/employeeSlice.js';
 import { Users, Plus } from 'lucide';
+import '@/components/ui/language-switcher/language-switcher.ts';
 
 @customElement('app-header')
 export class AppHeader extends BaseComponent {
@@ -41,7 +42,6 @@ export class AppHeader extends BaseComponent {
               <h1 class="text-lg font-semibold text-gray-900">${this.title}</h1>
             </div>     
             
-            <!-- Action Buttons -->
             <div class="flex space-x-4">
               <button 
                 id="employees"
@@ -52,7 +52,7 @@ export class AppHeader extends BaseComponent {
                     : ' text-orange-200'
                 }">
                 ${AppIcon.renderIcon(Users, { size: 16, class: 'h-4 w-4' })}
-                Employees
+                ${this.tCommon('navigation.employees')}
               </button>
               <button 
                 id="addNew"
@@ -63,13 +63,9 @@ export class AppHeader extends BaseComponent {
                     : ' text-orange-200'
                 }">
                 ${AppIcon.renderIcon(Plus, { size: 16, class: 'h-4 w-4' })}
-                Add New
+                ${this.tCommon('actions.add')}
               </button>
-              
-              <button 
-                class="px-4 py-2 rounded-md font-medium text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200">
-                Lang
-              </button>
+              <language-switcher></language-switcher>
             </div>
           </div>  
           </div>

@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import '@/store/store';
 import { initRouter } from '@/router/router';
+import { initI18n } from '@/utils/i18n';
 
 const app = document.querySelector('#app');
 if (app) {
@@ -8,7 +9,9 @@ if (app) {
     <div id="router-outlet"></div>
   `;
   
-  setTimeout(() => {
-    initRouter();
-  }, 0);
+  initI18n().then(() => {
+    setTimeout(() => {
+      initRouter();
+    }, 0);
+  }).catch(console.error);
 } 
