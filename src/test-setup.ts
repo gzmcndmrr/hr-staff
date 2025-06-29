@@ -121,6 +121,10 @@ vi.mock('@/store/store.ts', () => ({
     dispatch: vi.fn(),
   },
   setViewMode: vi.fn((mode) => ({ type: 'SET_VIEW_MODE', payload: mode })),
+  showEmployeeList: vi.fn(() => ({ type: 'employee/showEmployeeList' })),
+  showAddNew: vi.fn(() => ({ type: 'employee/showAddNew' })),
+  toggleViewMode: vi.fn(() => ({ type: 'employee/toggleViewMode' })),
+  setCurrentView: vi.fn((view) => ({ type: 'employee/setCurrentView', payload: view })),
 }));
 
 global.ResizeObserver = vi.fn().mockImplementation(() => ({

@@ -168,4 +168,3 @@ it('should return employees from store', () => {
   
   mockGetStateEmpty.mockRestore();
 });
-
