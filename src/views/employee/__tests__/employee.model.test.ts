@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   FormField,
   EmployeeFormData,
@@ -6,7 +6,6 @@ import {
   EmployeeFormFieldKeys,
   EmployeeFormValidation,
   EmployeeFormSubmitDetail,
-  EmployeeFormSubmitEvent,
   EmployeeOperationResult,
   EmployeeFilters,
   EmployeePagination,
@@ -18,7 +17,6 @@ import {
   ExtendedEmployee
 } from '../models/employee';
 
-// Type guards for runtime type checking
 export const isFormField = (obj: any): obj is FormField => {
   return (
     typeof obj === 'object' &&
@@ -113,7 +111,6 @@ export const isExtendedEmployee = (obj: any): obj is ExtendedEmployee => {
   );
 };
 
-// Utility functions
 export const createEmptyFormField = (): FormField => ({
   value: '',
   touched: false
@@ -344,7 +341,6 @@ describe('Employee Models', () => {
         'position'
       ];
 
-      // This test ensures type compatibility
       expect(keys).toHaveLength(8);
       expect(keys).toContain('firstName');
       expect(keys).toContain('lastName');

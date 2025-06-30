@@ -1,9 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import { it, vi, beforeEach } from 'vitest';
+import { it, vi, beforeEach, describe } from 'vitest';
 import { store } from '@/store/store';
 import { type RootState } from '@/store/store';
 import '@/views/employee/employee-view.ts';
 
+
+describe('EmployeeView', () => {
 beforeEach(() => {
   vi.resetAllMocks();
 });
@@ -29,4 +31,5 @@ it('should render app-header, employee-header and app-table when in list view', 
   expect(root.querySelector('app-table')).to.exist;
   expect(root.querySelector('employee-grid')).to.not.exist;
   expect(root.querySelector('employee-form')).to.not.exist;
+});
 });

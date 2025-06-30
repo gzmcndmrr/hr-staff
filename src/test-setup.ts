@@ -78,7 +78,7 @@ const mockTranslations = {
   }
 };
 
-const mockT = (key: string, options?: any, namespace?: string) => {
+const mockT = (key: string, namespace?: string) => {
   const ns = namespace || 'Common';
   const translations = mockTranslations[ns as keyof typeof mockTranslations] || {};
   return translations[key as keyof typeof translations] || key;
@@ -94,13 +94,13 @@ const mockI18n = {
 
 vi.mock('@/utils/i18n.ts', () => ({
   initI18n: vi.fn(),
-  tCommon: vi.fn((key: string) => mockT(key, undefined, 'Common')),
-  tEmployee: vi.fn((key: string) => mockT(key, undefined, 'Employee')),
+  tCommon: vi.fn((key: string) => mockT(key,'Common')),
+  tEmployee: vi.fn((key: string) => mockT(key,'Employee')),
   t: mockT,
   getCurrentLanguage: vi.fn(() => 'en'),
   changeLanguage: vi.fn().mockResolvedValue(undefined),
-  translateWithPath: vi.fn((path: string, key: string) => mockT(key)),
-  formatDate: vi.fn((date: any) => 'formatted-date'),
+  translateWithPath: vi.fn((key: string) => mockT(key)),
+  formatDate: vi.fn(() => 'formatted-date'),
   formatCurrency: vi.fn((amount: number) => `$${amount}`),
   default: mockI18n,
 }));
@@ -115,7 +115,7 @@ vi.mock('@/store/store.ts', () => ({
         selectedEmployeeId: null,
       },
     })),
-    subscribe: vi.fn((callback) => {
+    subscribe: vi.fn(() => {
       return () => {};
     }),
     dispatch: vi.fn(),
@@ -157,7 +157,7 @@ vi.mock('lucide', () => ({
   ChevronLeft: vi.fn(),
   ChevronRight: vi.fn(),
   Loader2: vi.fn(),
-  createElement: vi.fn((component, config) => {
+  createElement: vi.fn((config) => {
     const div = document.createElement('div');
     div.className = config?.class || '';
     div.setAttribute('data-icon', 'mocked-icon');

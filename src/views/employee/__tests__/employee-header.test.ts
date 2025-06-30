@@ -1,9 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import { it, beforeEach, vi, expect as vitestExpect } from 'vitest';
+import { it, beforeEach, vi, expect as vitestExpect, describe } from 'vitest';
 import { LitElement } from 'lit';
 import { store, setViewMode } from '@/store/store.js';
 import '../components/employee-header.ts';
 
+
+describe('EmployeeHeader', () => {
 beforeEach(() => {
   vi.clearAllMocks();
 });
@@ -41,4 +43,4 @@ it('renders given title prop', async () => {
   
     vitestExpect(dispatchSpy).toHaveBeenCalledWith(setViewMode('grid'));
   });
-  
+});

@@ -1,9 +1,13 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import { test } from 'vitest';
+import { beforeEach, describe, it, vi } from 'vitest';
 import '../components/employee-grid.ts';
 import { LitElement } from 'lit';
 
-test('renders employee first and last name', async () => {
+describe('EmployeeGrid', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+it('renders employee first and last name', async () => {
   const mockEmployee = {
     firstName: 'Gizem',
     lastName: 'Candemir',
@@ -24,4 +28,5 @@ test('renders employee first and last name', async () => {
 
   expect(root.textContent).to.include('Gizem');
   expect(root.textContent).to.include('Candemir');
+});
 });

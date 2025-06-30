@@ -25,7 +25,7 @@ export class AppHeader extends BaseComponent {
     });
   }
 
-  private handleEmployeesClick(e: Event) {
+  private handleEmployeesClick() {
     store.dispatch(showEmployeeList());
   }
 

@@ -29,7 +29,7 @@ export class AppSelect extends LitElement {
     }));
   }
 
-  private handleBlur(e: Event) {
+  private handleBlur() {
     this.dispatchEvent(new CustomEvent('select-blur', {
       detail: { value: this.value },
       bubbles: true,

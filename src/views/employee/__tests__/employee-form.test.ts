@@ -1,5 +1,5 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import { it, vi } from 'vitest';
+import { beforeEach, describe, it, vi } from 'vitest';
 import '../components/employee-form.ts';
 import { LitElement } from 'lit';
 import { store } from '@/store/store.ts';
@@ -7,6 +7,10 @@ import { EmployeeForm } from '../components/employee-form.ts';
 import { addEmployee, updateEmployee } from '@/store/slices/employeeSlice';
 import { testEmployeeFormData, testEmployeesData } from '@/test-setup';
 
+describe('EmployeeForm', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 it('should render first name input field', async () => {
   const el = await fixture(
     html`<employee-form></employee-form>`
@@ -167,4 +171,5 @@ it('should return employees from store', () => {
   expect(resultEmpty.length).to.equal(0);
   
   mockGetStateEmpty.mockRestore();
+});
 });
