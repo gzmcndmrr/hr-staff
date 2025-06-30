@@ -3,7 +3,6 @@ import { AppModal } from '@/components/ui/modal/app-modal';
 
 export const showConfirmModal = (config: ModalConfig): Promise<boolean> => {
   return new Promise((resolve) => {
-    // Ensure the custom element is defined before using it
     customElements.whenDefined('app-modal').then(() => {
       const modal = document.createElement('app-modal') as AppModal;
       document.body.appendChild(modal);

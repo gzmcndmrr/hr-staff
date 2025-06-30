@@ -1,5 +1,5 @@
 import { ModalConfig } from "./modal.type";
-import { X, createElement } from 'lucide';
+import { X } from 'lucide';
 import '@/components/ui/icon/app-icon';
 
 export class AppModal extends HTMLElement {
@@ -109,19 +109,13 @@ export class AppModal extends HTMLElement {
       return;
     }
 
-    const closeIcon = createElement(X, {
-      class: 'w-8 h-8',
-      stroke: 'currentColor',
-      'stroke-width': 2
-    });
-
     this.innerHTML = `
       <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2">
         <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 transform transition-all">
           <div class="flex items-center justify-between p-3">
             <h3 class="text-xl font-semibold text-orange-500">${title}</h3>
             <button class="modal-close-btn text-orange-500 hover:text-gray-600 transition-colors p-1 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
-              ${closeIcon.outerHTML}
+              <app-icon class="w-6 h-6"></app-icon>
             </button>
           </div>
           
@@ -141,6 +135,10 @@ export class AppModal extends HTMLElement {
       </div>
     `;
 
+    const iconElement = this.querySelector('app-icon') as any;
+    if (iconElement) {
+      iconElement.iconComponent = X;
+    }
   }
 }
 

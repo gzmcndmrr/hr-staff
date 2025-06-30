@@ -2,8 +2,13 @@ import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { BaseComponent } from '@/components/common/base-component.js';
 import { type TableStaffData } from '@/components/ui/table/table.type.js';
-import '@/components/ui/button/app-button.js';
-
+import '@/components/ui/button/app-button';
+import '@/components/ui/modal/app-modal';
+import { store } from '@/store/store';
+import { deleteEmployee, showEditEmployee } from '@/store/slices/employeeSlice';
+import { showConfirmModal } from '@/utils/modal';
+import { t } from '@/utils/i18n.js';
+import '@/components/ui/icon/app-icon';
 @customElement('employee-grid')
 export class EmployeeGrid extends BaseComponent {
   @property({ type: Array })
@@ -11,6 +16,25 @@ export class EmployeeGrid extends BaseComponent {
 
   override connectedCallback() {
     super.connectedCallback();
+  }
+
+  private handleEditEmployee(id: number): void {
+    store.dispatch(showEditEmployee(id));
+  }
+
+  private handleDeleteEmployee(id: number): void {
+    const employee = this.employees.find(emp => emp.id === id);
+    const employeeName = employee ? `${employee.firstName} ${employee.lastName}` : t('messages.unknownEmployee');
+    
+    showConfirmModal({
+      title: t('messages.confirm'),
+      description: t('messages.deleteEmployeeConfirm', { employeeName }),
+      proceedText: t('actions.proceed'),
+      cancelText: t('actions.cancel'),
+      onProceed: () => {
+        store.dispatch(deleteEmployee(id));
+      }
+    });
   }
 
   override render() {
@@ -60,9 +84,9 @@ export class EmployeeGrid extends BaseComponent {
                   </div>
               </div>
               <div class="flex justify-start space-x-4">
-                <app-button title="Edit" icon="edit" variant="info">Edit</app-button>
-                <app-button title="Delete" icon="trash">Delete</app-button>
-              </div>
+                <app-button title="Edit" icon="edit" variant="info" @click=${() => this.handleEditEmployee(employee.id)}>Edit</app-button>
+                <app-button title="Delete" icon="trash" @click=${() => this.handleDeleteEmployee(employee.id)}>Delete</app-button>
+                  </div>
           </div>
         `)}
       </div>
